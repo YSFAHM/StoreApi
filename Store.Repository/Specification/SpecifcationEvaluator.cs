@@ -26,7 +26,7 @@ namespace Store.Repository.Specification
 
             if (specs.OrderByDescending is not null)
             {
-                query = query.OrderBy(specs.OrderByDescending);
+                query = query.OrderByDescending(specs.OrderByDescending);
             }
 
             if(specs.IsPaginated)
