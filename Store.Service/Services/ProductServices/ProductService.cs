@@ -2,7 +2,7 @@
 using Store.Data.Entities;
 using Store.Repository.Interfaces;
 using Store.Repository.Specification.ProductSpecification;
-using Store.Service.Services.Helper;
+using Store.Service.Helper;
 using Store.Service.Services.ProductServices.Dtos;
 
 
@@ -46,6 +46,7 @@ namespace Store.Service.Services.ProductServices
             if (productId is null) throw new Exception("Id Is Null");
             var specs = new ProductWithSpecification(productId);
             var product = await _unitOfWork.Repository<Product, int>().GetWithSpecifcationByIdAsync(specs);
+            if (product is null) throw new Exception("Product Not Found");
             var mappedProduct = _mapper.Map<ProductDetailsDto>(product);
             return mappedProduct;
         }

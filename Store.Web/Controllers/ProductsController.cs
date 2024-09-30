@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Store.Repository.Specification.ProductSpecification;
-using Store.Service.Services.Helper;
+using Store.Service.Helper;
 using Store.Service.Services.ProductServices;
 using Store.Service.Services.ProductServices.Dtos;
+using Store.Web.Helper;
 
 namespace Store.Web.Controllers
 {
@@ -33,12 +34,14 @@ namespace Store.Web.Controllers
         }
 
         [HttpGet]
+        [Cache(30)]
         public async Task<ActionResult<IReadOnlyList<ProductDetailsDto>>> GetAllProducts()
         {
             return Ok(await _productService.GetAllProductsAsync());
         }
 
         [HttpGet]
+        
         //check
         public async Task<ActionResult<PaginatedResult<ProductDetailsDto>>> GetAllProductsWithSpecification([FromQuery]ProductSpecification input)
         {

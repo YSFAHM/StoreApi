@@ -1,6 +1,6 @@
 ﻿using Store.Data.Entities;
 using Store.Repository.Specification.ProductSpecification;
-using Store.Service.Services.Helper;
+using Store.Service.Helper;
 using Store.Service.Services.ProductServices.Dtos;
 
 namespace Store.Service.Services.ProductServices

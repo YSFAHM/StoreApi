@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Store.Service.Services.Helper
+namespace Store.Service.Helper
 {
-    public class PaginatedResult <T>
+    public class PaginatedResult<T>
     {
         public PaginatedResult(int pageIndex, int pageSize, int totalCount, IReadOnlyList<T> data)
         {
