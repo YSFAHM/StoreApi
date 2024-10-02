@@ -6,7 +6,7 @@ namespace Store.Web.Middleware
 {
     public class ExceptionMiddleware
     {
-        private  RequestDelegate _next;
+        private readonly RequestDelegate _next;
         private readonly IHostEnvironment _environment;
         private readonly ILogger<ExceptionMiddleware> _logger;
 

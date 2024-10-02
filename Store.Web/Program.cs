@@ -24,7 +24,7 @@ namespace Store.Web
             // Add services to the container.
 
             builder.Services.AddControllers();
-            
+            builder.Services.AddCors(options => options.AddPolicy("local",policy => policy.AllowAnyOrigin()));
 
             builder.Services.AddDbContext<StoreDbContext>(options =>
             {
@@ -59,6 +59,7 @@ namespace Store.Web
             app.UseHttpsRedirection();
 
             app.UseStaticFiles();
+            app.UseCors("local");
 
             app.UseAuthorization();
 
