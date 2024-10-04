@@ -24,12 +24,17 @@ namespace Store.Web
             // Add services to the container.
 
             builder.Services.AddControllers();
-            builder.Services.AddCors(options => options.AddPolicy("local",policy => policy.AllowAnyOrigin()));
 
             builder.Services.AddDbContext<StoreDbContext>(options =>
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
                 
+            });
+
+            builder.Services.AddDbContext<StoreIdentityDbContext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("IdentityConnection"));
+
             });
 
             builder.Services.AddSingleton<IConnectionMultiplexer>(config =>
@@ -39,6 +44,7 @@ namespace Store.Web
             });
 
             builder.Services.AddApplicationServices();
+            builder.Services.AddIdentityServices();
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
@@ -59,7 +65,8 @@ namespace Store.Web
             app.UseHttpsRedirection();
 
             app.UseStaticFiles();
-            app.UseCors("local");
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
