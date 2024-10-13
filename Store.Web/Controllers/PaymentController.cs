@@ -11,7 +11,7 @@ namespace Store.Web.Controllers
     {
         private readonly IPaymentService _paymentService;
         private readonly ILogger<PaymentController> _logger;
-        const string endpointSecret = "whsec_5b1c6b4b0a9cac756520c76bd3de89cf2f648bf729bfff080dc72a309b443e30";
+        const string endpointSecret = "**************************************************************************";
 
         public PaymentController(IPaymentService paymentService,ILogger<PaymentController> logger)
         {
