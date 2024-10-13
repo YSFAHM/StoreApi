@@ -5,6 +5,7 @@ using Store.Repository.Interfaces;
 using Store.Repository.Specification.OrderSpecification;
 using Store.Service.Services.BasketService;
 using Store.Service.Services.OrderService.Dtos;
+using Store.Service.Services.PaymentService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,12 +19,14 @@ namespace Store.Service.Services.OrderService
         private readonly IBasketService _basketService;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly IPaymentService _paymentService;
 
-        public OrderService(IBasketService basketService, IUnitOfWork unitOfWork, IMapper mapper)
+        public OrderService(IBasketService basketService, IUnitOfWork unitOfWork, IMapper mapper, IPaymentService paymentService)
         {
             _basketService = basketService;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _paymentService = paymentService;
         }
         public async Task<OrderDetailsDto> CreateOrderAsync(OrderDto input)
         {
@@ -76,6 +79,13 @@ namespace Store.Service.Services.OrderService
             #endregion
 
             #region Payment
+            var specs = new OrderWithPaymentIntentSpecification(basket.PaymentIntentId);
+
+            var existingOrder = await _unitOfWork.Repository<Order, Guid>().GetWithSpecifcationByIdAsync(specs);
+            if (existingOrder is null)
+            {
+                await _paymentService.CreateOrUpdatePaymentIntent(basket);
+            }
             #endregion
 
             #region Create Order
@@ -91,6 +101,7 @@ namespace Store.Service.Services.OrderService
                 BasketId = input.BasketId,
                 OrderItems = mappedOrderItems,
                 SubTotal = subTotal,
+                PaymentIntentId = basket.PaymentIntentId
 
             };
             await _unitOfWork.Repository<Order, Guid>().AddAsync(order);

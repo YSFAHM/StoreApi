@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Store.Data.Entities;
 using Store.Data.Entities.OrderEntities;
 using Store.Repository.Basket.Models;
+using Store.Repository.Interfaces;
 using Store.Repository.Repositories;
 using Store.Repository.Specification.OrderSpecification;
 using Store.Service.Services.BasketService;
@@ -21,11 +22,11 @@ namespace Store.Service.Services.PaymentService
     public class PaymentService : IPaymentService
     {
         private readonly IConfiguration _configuration;
-        private readonly UnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IBasketService _basketService;
         private readonly IMapper _mapper;
 
-        public PaymentService(IConfiguration configuration, UnitOfWork unitOfWork,IBasketService basketService,IMapper mapper)
+        public PaymentService(IConfiguration configuration, IUnitOfWork unitOfWork,IBasketService basketService,IMapper mapper)
         {
             _configuration = configuration;
             _unitOfWork = unitOfWork;
